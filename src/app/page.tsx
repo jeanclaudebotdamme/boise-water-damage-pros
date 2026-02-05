@@ -241,31 +241,31 @@ function LeadForm() {
   );
 }
 
-// Testimonials Data
+// Testimonials Data - Before/After images show SAME room, just damaged vs restored
 const testimonials = [
   {
     name: "Sarah M.",
     location: "Boise, ID",
     rating: 5,
-    text: "Pipe burst at 2 AM and they had someone here within 45 minutes. Saved our basement from major damage. Professional, fast, and worked directly with our insurance.",
-    beforeImage: "/images/before-basement-flood.jpg",
-    afterImage: "/images/after-basement-restored.jpg"
+    text: "Pipe burst at 2 AM and they had someone here within 45 minutes. Caught it early before major damage set in. They extracted the water and dried everything out fast. Professional and worked directly with our insurance.",
+    beforeImage: "/images/before-sarah-basement.jpg",
+    afterImage: "/images/after-sarah-basement.jpg"
   },
   {
     name: "Mike T.",
     location: "Meridian, ID",
     rating: 5,
-    text: "After the heavy rains, our living room flooded. The team extracted the water and had everything dry within 3 days. Couldn't be happier with the service.",
-    beforeImage: "/images/before-livingroom-flood.jpg",
-    afterImage: "/images/after-livingroom-restored.jpg"
+    text: "After the heavy rains, our living room carpet was soaked. The team extracted the water and had everything dry within 3 days. Same carpet, same furniture, just dry and clean again. Couldn't be happier.",
+    beforeImage: "/images/before-mike-livingroom.jpg",
+    afterImage: "/images/after-mike-livingroom.jpg"
   },
   {
     name: "Jennifer K.",
     location: "Eagle, ID",
     rating: 5,
-    text: "Found black mold in our bathroom during renovation. They handled the remediation safely and professionally. House feels clean and safe again.",
-    beforeImage: "/images/before-mold-remediation.jpg",
-    afterImage: "/images/after-mold-remediation.jpg"
+    text: "Found black mold in our bathroom tile grout during renovation. They remediated it safely - same tiles, just completely clean and mold-free. House feels safe again.",
+    beforeImage: "/images/before-jennifer-bathroom.jpg",
+    afterImage: "/images/after-jennifer-bathroom.jpg"
   }
 ];
 
