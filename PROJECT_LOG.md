@@ -403,6 +403,32 @@ This is now my go-to recovery method.
 - Form submission: Shows success but doesn't send anywhere yet (needs webhook)
 - Chat: Simulated responses (needs real-time connection to me)
 
+### Chat Playbook Created (2026-02-05)
+
+**File:** `CHAT_PLAYBOOK.md`
+
+**Purpose:** Must read before EVERY customer chat conversation
+
+**Key Topics Covered:**
+- Who we are (how to frame the service)
+- Services offered
+- Internal process (qualify → match → contractor calls → on-site)
+- Response time expectations (emergency vs non-emergency)
+- Quote process (never promise exact pricing)
+- Emergency vs Restoration mindset
+- Full restoration timeline (4 phases)
+- Common Q&A responses
+- When to escalate to Jason
+- My role boundaries
+
+**Critical Reminders:**
+- We DON'T say: "lead generation company", "we don't have our own team"
+- We DO say: "network of certified professionals", "dispatch specialists"
+- Emergency response: 60-90 minutes
+- Contractor callback: 10-15 minutes
+- Never promise exact pricing
+- Emergency = fast action, Restoration = education
+
 ---
 
 *Last Updated: 2026-02-05*
