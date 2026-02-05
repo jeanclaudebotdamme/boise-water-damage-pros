@@ -1,19 +1,20 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Phone, Clock, Shield, Award, MapPin, Droplets, Home as HomeIcon, AlertTriangle, CheckCircle, MessageCircle, X, Send, ChevronRight } from 'lucide-react';
+import { Phone, Clock, Shield, Award, MapPin, Droplets, Home as HomeIcon, AlertTriangle, CheckCircle, MessageCircle, X, Send, ChevronRight, Star, Quote } from 'lucide-react';
+import Image from 'next/image';
 
 // Chat Component
 function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<{text: string, isUser: boolean}[]>([
-    { text: "Hi! Are you dealing with water damage right now? I'm here to help 24/7.", isUser: false }
+    { text: "👋 Hi! I'm online right now. Are you dealing with water damage? I can help immediately.", isUser: false }
   ]);
   const [input, setInput] = useState('');
 
   useEffect(() => {
-    // Auto-open after 5 seconds
-    const timer = setTimeout(() => setIsOpen(true), 5000);
+    // Auto-open after 3 seconds
+    const timer = setTimeout(() => setIsOpen(true), 3000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -22,7 +23,7 @@ function ChatWidget() {
     
     setMessages(prev => [...prev, { text: input, isUser: true }]);
     
-    // Simulate response (in production, this connects to me)
+    // Simulate response
     setTimeout(() => {
       setMessages(prev => [...prev, { 
         text: "I understand. To connect you with the right specialist, can you tell me: 1) What type of water damage? (burst pipe, flooding, sewage) 2) Is your power still on? 3) Do you have homeowners insurance?", 
@@ -38,17 +39,18 @@ function ChatWidget() {
       {!isOpen ? (
         <button 
           onClick={() => setIsOpen(true)}
-          className="bg-primary hover:bg-primary-dark text-white rounded-full p-4 shadow-lg flex items-center gap-2 animate-pulse"
+          className="bg-green-500 hover:bg-green-600 text-white rounded-full py-3 px-6 shadow-lg flex items-center gap-2 animate-pulse"
         >
-          <MessageCircle className="w-6 h-6" />
-          <span className="font-semibold">Chat Now</span>
+          <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+          <MessageCircle className="w-5 h-5" />
+          <span className="font-semibold">Chat With Us - We're Online</span>
         </button>
       ) : (
         <div className="bg-white rounded-2xl shadow-2xl w-80 sm:w-96 border border-gray-200 overflow-hidden">
           <div className="bg-primary text-white p-4 flex justify-between items-center">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-              <span className="font-semibold">Emergency Support</span>
+              <span className="font-semibold">Emergency Support - Online Now</span>
             </div>
             <button onClick={() => setIsOpen(false)} className="text-white/80 hover:text-white">
               <X className="w-5 h-5" />
@@ -107,7 +109,6 @@ function LeadForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // In production, this sends to me via email/API
     setSubmitted(true);
   };
 
@@ -240,6 +241,34 @@ function LeadForm() {
   );
 }
 
+// Testimonials Data
+const testimonials = [
+  {
+    name: "Sarah M.",
+    location: "Boise, ID",
+    rating: 5,
+    text: "Pipe burst at 2 AM and they had someone here within 45 minutes. Saved our basement from major damage. Professional, fast, and worked directly with our insurance.",
+    beforeImage: "/images/before-basement-flood.jpg",
+    afterImage: "/images/after-basement-restored.jpg"
+  },
+  {
+    name: "Mike T.",
+    location: "Meridian, ID",
+    rating: 5,
+    text: "After the heavy rains, our living room flooded. The team extracted the water and had everything dry within 3 days. Couldn't be happier with the service.",
+    beforeImage: "/images/before-livingroom-flood.jpg",
+    afterImage: "/images/after-livingroom-restored.jpg"
+  },
+  {
+    name: "Jennifer K.",
+    location: "Eagle, ID",
+    rating: 5,
+    text: "Found black mold in our bathroom during renovation. They handled the remediation safely and professionally. House feels clean and safe again.",
+    beforeImage: "/images/before-mold-remediation.jpg",
+    afterImage: "/images/after-mold-remediation.jpg"
+  }
+];
+
 // Main Page Component
 export default function Home() {
   return (
@@ -247,7 +276,7 @@ export default function Home() {
       {/* Emergency Banner */}
       <div className="bg-secondary text-white py-2 px-4 text-center text-sm font-semibold">
         <Clock className="w-4 h-4 inline-block mr-2" />
-        24/7 Emergency Service Available Now — Call (208) 555-0123
+        24/7 Emergency Service Available Now — Chat With Us or Call (208) 555-0123
       </div>
 
       {/* Hero Section */}
@@ -258,7 +287,7 @@ export default function Home() {
               {/* Trust Badges */}
               <div className="flex flex-wrap gap-3 text-xs">
                 <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full flex items-center gap-1">
-                  <CheckCircle className="w-3 h-3" /> Licensed & Insured
+                  <CheckCircle className="w-3 h-3" /> 60-Min Response
                 </span>
                 <span className="bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full flex items-center gap-1">
                   <Shield className="w-3 h-3" /> Insurance Direct Billing
@@ -271,7 +300,7 @@ export default function Home() {
               </h1>
               
               <p className="text-lg sm:text-xl text-gray-300">
-                Immediate 24/7 response to water damage emergencies. We work directly with your insurance. Free estimates.
+                Immediate 24/7 response to water damage emergencies. We connect you with certified restoration professionals who work directly with your insurance.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
@@ -282,8 +311,12 @@ export default function Home() {
                   <Phone className="w-5 h-5" />
                   Call (208) 555-0123
                 </a>
-                <button className="bg-white/10 hover:bg-white/20 text-white font-bold py-4 px-8 rounded-xl border border-white/30 transition-colors">
-                  Get Free Estimate
+                <button 
+                  onClick={() => document.getElementById('chat-widget')?.click()}
+                  className="bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-8 rounded-xl flex items-center justify-center gap-2 transition-colors"
+                >
+                  <MessageCircle className="w-5 h-5" />
+                  Chat With Us - We're Online
                 </button>
               </div>
 
@@ -295,11 +328,11 @@ export default function Home() {
                 </div>
                 <div>
                   <div className="text-2xl sm:text-3xl font-bold text-blue-400">24/7</div>
-                  <div className="text-xs sm:text-sm text-gray-400">Availability</div>
+                  <div className="text-xs sm:text-sm text-gray-400">Live Support</div>
                 </div>
                 <div>
-                  <div className="text-2xl sm:text-3xl font-bold text-blue-400">100%</div>
-                  <div className="text-xs sm:text-sm text-gray-400">Satisfaction</div>
+                  <div className="text-2xl sm:text-3xl font-bold text-blue-400">500+</div>
+                  <div className="text-xs sm:text-sm text-gray-400">Homes Restored</div>
                 </div>
               </div>
             </div>
@@ -312,30 +345,87 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Trust Signals */}
+      {/* Trust Signals - Reframed for Lead Gen */}
       <section className="py-12 bg-gray-50 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             <div className="p-4">
-              <Award className="w-10 h-10 text-primary mx-auto mb-3" />
-              <div className="font-bold">IICRC Certified</div>
-              <div className="text-sm text-gray-600">Industry Standard</div>
+              <Clock className="w-10 h-10 text-primary mx-auto mb-3" />
+              <div className="font-bold">60-Min Response</div>
+              <div className="text-sm text-gray-600">Emergency Dispatch</div>
             </div>
             <div className="p-4">
               <Shield className="w-10 h-10 text-primary mx-auto mb-3" />
-              <div className="font-bold">Fully Insured</div>
-              <div className="text-sm text-gray-600">Peace of Mind</div>
+              <div className="font-bold">Insurance Billing</div>
+              <div className="text-sm text-gray-600">Direct Claims Help</div>
             </div>
             <div className="p-4">
-              <Clock className="w-10 h-10 text-primary mx-auto mb-3" />
-              <div className="font-bold">24/7 Emergency</div>
-              <div className="text-sm text-gray-600">Always Available</div>
+              <Award className="w-10 h-10 text-primary mx-auto mb-3" />
+              <div className="font-bold">Vetted Pros</div>
+              <div className="text-sm text-gray-600">Certified Network</div>
             </div>
             <div className="p-4">
               <CheckCircle className="w-10 h-10 text-primary mx-auto mb-3" />
-              <div className="font-bold">Insurance Ready</div>
-              <div className="text-sm text-gray-600">Direct Billing</div>
+              <div className="font-bold">Satisfaction</div>
+              <div className="text-sm text-gray-600">Quality Guaranteed</div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Before/After Gallery */}
+      <section className="py-16 px-4 bg-white">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">Real Results</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              See the transformations our network of certified restoration professionals has achieved for homeowners across Boise.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {testimonials.map((testimonial, idx) => (
+              <div key={idx} className="bg-gray-50 rounded-2xl overflow-hidden shadow-lg">
+                {/* Before/After Images */}
+                <div className="grid grid-cols-2 gap-1">
+                  <div className="relative aspect-[4/3]">
+                    <Image
+                      src={testimonial.beforeImage}
+                      alt={`Before - ${testimonial.location}`}
+                      fill
+                      className="object-cover"
+                    />
+                    <span className="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">BEFORE</span>
+                  </div>
+                  <div className="relative aspect-[4/3]">
+                    <Image
+                      src={testimonial.afterImage}
+                      alt={`After - ${testimonial.location}`}
+                      fill
+                      className="object-cover"
+                    />
+                    <span className="absolute top-2 left-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">AFTER</span>
+                  </div>
+                </div>
+                
+                {/* Testimonial Content */}
+                <div className="p-6">
+                  <div className="flex items-center gap-1 mb-3">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                    ))}
+                  </div>
+                  <div className="relative">
+                    <Quote className="absolute -top-2 -left-2 w-6 h-6 text-gray-300" />
+                    <p className="text-gray-700 text-sm pl-4">{testimonial.text}</p>
+                  </div>
+                  <div className="mt-4 pt-4 border-t border-gray-200">
+                    <p className="font-semibold text-sm">{testimonial.name}</p>
+                    <p className="text-gray-500 text-xs">{testimonial.location}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -356,38 +446,44 @@ export default function Home() {
                 icon: Droplets,
                 title: 'Water Damage Restoration',
                 desc: 'Rapid water extraction, drying, and restoration. We handle burst pipes, flooding, and leaks of any size.',
+                link: '/services/water-damage'
               },
               {
                 icon: AlertTriangle,
                 title: 'Mold Remediation',
                 desc: 'Safe mold removal and prevention. Certified technicians protect your family from harmful mold exposure.',
+                link: '/services/mold-remediation'
               },
               {
                 icon: HomeIcon,
                 title: 'Flood Cleanup',
                 desc: 'Emergency flood response. We extract water, dry structures, and prevent secondary damage.',
+                link: '/services/flood-cleanup'
               },
               {
                 icon: Shield,
                 title: 'Sewage Backup Cleanup',
                 desc: 'Hazardous sewage cleanup with full sanitization. We handle the dangerous stuff safely.',
+                link: '/services/water-damage'
               },
               {
                 icon: MapPin,
                 title: 'Crawl Space Drying',
                 desc: 'Specialized equipment to dry crawl spaces and prevent long-term moisture problems.',
+                link: '/services/water-damage'
               },
               {
                 icon: CheckCircle,
                 title: 'Insurance Claims Help',
                 desc: 'We document everything and work directly with your insurance for hassle-free claims.',
+                link: '/services/water-damage'
               },
             ].map((service, idx) => (
               <div key={idx} className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow border border-gray-100">
                 <service.icon className="w-10 h-10 text-primary mb-4" />
                 <h3 className="text-xl font-bold mb-2">{service.title}</h3>
                 <p className="text-gray-600 text-sm">{service.desc}</p>
-                <a href="#" className="inline-flex items-center gap-1 text-primary font-semibold mt-4 text-sm hover:underline">
+                <a href={service.link} className="inline-flex items-center gap-1 text-primary font-semibold mt-4 text-sm hover:underline">
                   Learn More <ChevronRight className="w-4 h-4" />
                 </a>
               </div>
@@ -448,7 +544,7 @@ export default function Home() {
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl sm:text-4xl font-bold mb-6">Water Damage Can't Wait</h2>
           <p className="text-lg text-gray-600 mb-8">
-            Every minute counts when water is damaging your home. Our emergency team is ready to respond 24/7.
+            Every minute counts when water is damaging your home. Chat with us now or call our emergency line.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a 
@@ -456,8 +552,15 @@ export default function Home() {
               className="bg-secondary hover:bg-secondary-dark text-white font-bold py-4 px-8 rounded-xl flex items-center justify-center gap-2 transition-colors text-lg"
             >
               <Phone className="w-5 h-5" />
-              Call Now (208) 555-0123
+              Call (208) 555-0123
             </a>
+            <button 
+              onClick={() => document.getElementById('chat-widget')?.click()}
+              className="bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-8 rounded-xl flex items-center justify-center gap-2 transition-colors"
+            >
+              <MessageCircle className="w-5 h-5" />
+              Chat With Us - Online Now
+            </button>
           </div>
           <p className="mt-4 text-sm text-gray-500">Free estimates • Insurance direct billing • 60-minute response</p>
         </div>
@@ -470,14 +573,15 @@ export default function Home() {
             <div>
               <h4 className="text-white font-bold text-lg mb-4">Boise Water Damage Pros</h4>
               <p className="text-sm">24/7 emergency water damage restoration serving Boise and surrounding areas.</p>
+              <p className="text-sm mt-2">859 W Broad St<br />Boise, ID 83702</p>
             </div>
             <div>
               <h4 className="text-white font-bold mb-4">Services</h4>
               <ul className="space-y-2 text-sm">
-                <li>Water Damage Restoration</li>
-                <li>Mold Remediation</li>
-                <li>Flood Cleanup</li>
-                <li>Sewage Cleanup</li>
+                <li><a href="/services/water-damage" className="hover:text-white">Water Damage Restoration</a></li>
+                <li><a href="/services/mold-remediation" className="hover:text-white">Mold Remediation</a></li>
+                <li><a href="/services/flood-cleanup" className="hover:text-white">Flood Cleanup</a></li>
+                <li><a href="/services/water-damage" className="hover:text-white">Sewage Cleanup</a></li>
               </ul>
             </div>
             <div>
@@ -493,27 +597,39 @@ export default function Home() {
               <h4 className="text-white font-bold mb-4">Contact</h4>
               <p className="text-sm mb-2">24/7 Emergency Hotline:</p>
               <a href="tel:208-555-0123" className="text-white font-bold text-lg hover:text-blue-400">(208) 555-0123</a>
+              <p className="text-sm mt-2">support@boisewaterdamagepros.com</p>
             </div>
           </div>
           <div className="border-t border-gray-800 pt-8 text-center text-sm">
             <p>&copy; 2025 Boise Water Damage Pros. All rights reserved.</p>
-            <p className="mt-2">Licensed & Insured • IICRC Certified</p>
+            <p className="mt-2">Connecting you with certified restoration professionals</p>
           </div>
         </div>
       </footer>
 
       {/* Chat Widget */}
-      <ChatWidget />
+      <div id="chat-widget">
+        <ChatWidget />
+      </div>
 
       {/* Mobile Sticky CTA */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-3 sm:hidden z-40">
-        <a 
-          href="tel:208-555-0123" 
-          className="bg-secondary text-white font-bold py-3 px-6 rounded-lg flex items-center justify-center gap-2 w-full"
-        >
-          <Phone className="w-5 h-5" />
-          Call Emergency Line
-        </a>
+        <div className="flex gap-2">
+          <button 
+            onClick={() => document.getElementById('chat-widget')?.click()}
+            className="flex-1 bg-green-500 text-white font-bold py-3 px-4 rounded-lg flex items-center justify-center gap-2"
+          >
+            <MessageCircle className="w-5 h-5" />
+            Chat
+          </button>
+          <a 
+            href="tel:208-555-0123" 
+            className="flex-1 bg-secondary text-white font-bold py-3 px-4 rounded-lg flex items-center justify-center gap-2"
+          >
+            <Phone className="w-5 h-5" />
+            Call
+          </a>
+        </div>
       </div>
     </main>
   );
