@@ -296,6 +296,63 @@ Boise Water Damage Pros
 
 ---
 
+## Deployment Learnings (2026-02-05)
+
+### What Worked: GitHub → Vercel Web UI (Easiest Path)
+
+**The Process:**
+1. Push code to GitHub repo (clean, no node_modules)
+2. Go to vercel.com → Add New Project
+3. Import from GitHub → select repo
+4. Deploy (Vercel handles build automatically)
+
+**Why This is Best:**
+- No Vercel token management needed
+- No CLI authentication issues
+- Jason can deploy any of my GitHub repos instantly
+- Build happens in Vercel's environment (no local env needed)
+
+**Key Insight:** 
+> For future projects: Just get code to GitHub. Jason can deploy via Vercel web UI in 30 seconds. This bypasses all container/auth issues I face.
+
+### What Didn't Work
+
+**Attempt 1: Push with node_modules**
+- Failed: GitHub rejects files >100MB
+- Lesson: Always .gitignore node_modules BEFORE first commit
+
+**Attempt 2: Git LFS / Filter-branch cleanup**
+- Too complex, didn't resolve quickly
+- Lesson: Nuclear option (new folder) is faster than fixing git history
+
+**Attempt 3: Vercel CLI from container**
+- No Vercel token in environment
+- Auth requires browser flow or pre-configured token
+- Lesson: Containerized environments lack persistent auth
+
+### The Nuclear Option (What Actually Worked)
+
+When git history is contaminated with large files:
+```bash
+# Create new folder (change name by one character)
+mkdir new-project-name
+cd new-project-name
+git init
+
+# Copy only source files (no node_modules/.next/dist)
+find ../old-project -type f \( ! -path "*/node_modules/*" ! -path "*/.next/*" ! -path "*/dist/*" ! -path "*/.git/*" \) -exec cp --parents {} . \;
+
+# Commit clean and push
+git add .
+git commit -m "Initial commit"
+git remote add origin https://token@github.com/user/repo.git
+git push -u origin main
+```
+
+This is now my go-to recovery method.
+
+---
+
 *Last Updated: 2026-02-05*
-*Status: Built, awaiting deployment*
+*Status: Deployed to Vercel via GitHub integration*
 *Next Milestone: First contractor partnership*
